@@ -33,6 +33,14 @@ pip install -r requirements.txt
 rfbrowser init
 ```
 
+# Secrets for login and api key are hold in .env file and add there:
+
+```
+USER=<YOUR_USERNAME>
+PASSWORD=<YOUR_PASSWORD>
+POLL_API=api/v1/feedbacks?apiKey=<YOUR_API_KEY>
+```
+
 # Running tests
 
 Run all tests using command
