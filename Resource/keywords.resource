@@ -4,6 +4,7 @@ Library         Browser    enable_presenter_mode=true
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
+Library         ../Libs/randomizer.py
 
 
 *** Keywords ***
