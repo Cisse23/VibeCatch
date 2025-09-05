@@ -1,7 +1,7 @@
 *** Settings ***
 Library    Browser
-Resource    ../Resources/keywords.resource
-Resource    ../Resources/variables.resource
+Resource    ../Resource/keywords.resource
+Resource    ../Resource/common_var.resource
 Suite Setup    New Context
 Suite Teardown    Close Browser
 Test Tags    common
