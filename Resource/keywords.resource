@@ -2,6 +2,7 @@
 Documentation   Keywords resource file for Suites
 Library         String
 Library         Browser    enable_presenter_mode=true
+Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
@@ -100,4 +101,45 @@ Create And Verify QWL Poll
     ...    ${hide_vector_graphs}=${TRUE}
     ...    ${number_of_questions}=All
     ${pollname}=    Create QWL Poll    ${project_prefix}    ${rand_len}    ${charset}
+    Verify Poll Created    ${pollname}
+
+Create Custom Poll
+    [Documentation]    Creates a new Custom Poll with a generated name and a list of questions.
+    ...    Returns the full poll name so tests can assert on it.
+    [Arguments]    ${project_prefix}=Custom Poll    ${rand_len}=5    ${charset}=[LOWER]    @{questions}
+    # Build a unique poll name
+    ${suffix}=    Generate Random String    ${rand_len}    ${charset}
+    ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+
+    # Create project/poll
+    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=15
+    Click    ${ADD_NEW_PROJECT}
+    Wait For Elements State    ${ADD_PROJECT_NAME}    visible    10s
+    Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
+    Wait For Elements State    ${CREATE_CUSTOM_POLL_BUTTON}    enabled    10s
+    Click    ${CREATE_CUSTOM_POLL_BUTTON}
+    # Add questions
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON}    visible    10s
+    Click    ${ADD_QUESTIONS_BUTTON}
+    VAR    ${status}=    ${False}
+    WHILE    not ${status}    limit=5
+        Click    ${ADD_QUESTIONS_BUTTON}
+        ${status}=    Run Keyword And Return Status
+        ...    Wait For Elements State
+        ...    ${TYPE_QUESTIONS_FIELD}
+        ...    visible
+        ...    timeout=3
+    END
+    FOR    ${q}    IN    @{questions}
+        Wait For Elements State    ${TYPE_QUESTIONS_FIELD}    visible    5s
+        Type Text    ${TYPE_QUESTIONS_FIELD}    ${q}    clear=False
+    END
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON2}    enabled    10s
+    Click    ${ADD_QUESTIONS_BUTTON2}
+    RETURN    ${poll_name}
+
+Create And Verify Custom Poll
+    [Documentation]    Verify that custom poll is created
+    [Arguments]    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
+    ${pollname}=    Create Custom Poll    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
     Verify Poll Created    ${pollname}
