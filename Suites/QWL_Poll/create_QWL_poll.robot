@@ -2,7 +2,7 @@
 Documentation       Creates QWL Poll
 Resource            ../../Resource/keywords.resource
 
-Suite Setup         Open And Login VibeCheck
+Suite Setup         Open And Login VibeCatch
 Suite Teardown      Close Browser
 Test Template       Create And Verify QWL Poll
 

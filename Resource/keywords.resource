@@ -89,7 +89,7 @@ Verify Poll Created
     [Arguments]    ${pollname}
     Go To    ${URL}
     Sleep    10
-    Wait For Elements State    //*[contains(text(), "${pollname}")]    visible    timeout=120s
+    Wait For Elements State    //a[normalize-space()="${pollname}"]    visible    timeout=120s
 
 Create And Verify QWL Poll
     [Documentation]    Create and verify that poll is created
@@ -121,15 +121,6 @@ Create Custom Poll
     # Add questions
     Wait For Elements State    ${ADD_QUESTIONS_BUTTON}    visible    10s
     Click    ${ADD_QUESTIONS_BUTTON}
-    VAR    ${status}=    ${False}
-    WHILE    not ${status}    limit=5
-        Click    ${ADD_QUESTIONS_BUTTON}
-        ${status}=    Run Keyword And Return Status
-        ...    Wait For Elements State
-        ...    ${TYPE_QUESTIONS_FIELD}
-        ...    visible
-        ...    timeout=3
-    END
     FOR    ${q}    IN    @{questions}
         Wait For Elements State    ${TYPE_QUESTIONS_FIELD}    visible    5s
         Type Text    ${TYPE_QUESTIONS_FIELD}    ${q}    clear=False
@@ -142,4 +133,51 @@ Create And Verify Custom Poll
     [Documentation]    Verify that custom poll is created
     [Arguments]    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
     ${pollname}=    Create Custom Poll    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
+    Verify Poll Created    ${pollname}
+
+Create 360 Poll
+    [Documentation]    Generates new 360 Poll with random name automatically and adds one random question.
+    [Arguments]    ${project_prefix}=360 Poll
+    ...    ${rand_len}=5
+    ...    ${charset}=[LOWER]
+    ...    ${question_index}=RANDOM
+    ...    ${min_index}=3
+    ...    ${max_allowed}=12
+    ${suffix}=    Generate Random String    ${rand_len}    ${charset}
+    ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=20s
+    Click    ${ADD_NEW_PROJECT}
+    Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
+    Click    ${CREATE_360_POLL_BUTTON}
+    Wait For Elements State    ${ADD_QUESTION_BUTTON}    visible    timeout=20s
+    VAR    ${status}=    ${False}
+    WHILE    not ${status}    limit=5
+        Click    ${ADD_QUESTION_BUTTON}
+        ${status}=    Run Keyword And Return Status
+        ...    Wait For Elements State
+        ...    ${SELECT_NEW_QUESTION}
+        ...    visible
+        ...    timeout=3
+    END
+    Wait For Elements State    ${SELECT_NEW_QUESTION}    visible    timeout=30s
+    Click    ${SELECT_NEW_QUESTION}
+    IF    '${question_index}' == 'RANDOM' or '${question_index}' == '${EMPTY}'
+        ${random_index}=    Get Random Index Answer
+    ELSE
+        ${random_index}=    Set Variable    ${question_index}
+    END
+    Select Options By    ${SELECT_NEW_QUESTION}    index    ${random_index}
+    Click    ${CLICK_FIRST_CHOICE}
+    Click    ${ADD_SELECTED_QUESTION}
+    RETURN    ${poll_name}
+
+Create And Verify 360 Poll
+    [Documentation]    Generates new 360 Poll with random name automatically, adds one random question and verifies it.
+    [Arguments]    ${project_prefix}
+    ...    ${rand_len}
+    ...    ${charset}
+    ...    ${question_index}
+    ...    ${min_index}
+    ...    ${max_allowed}
+    ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
     Verify Poll Created    ${pollname}
