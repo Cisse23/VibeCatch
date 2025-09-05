@@ -11,7 +11,7 @@ Add Email Address To Email Group
     [Documentation]    Creates a new email group and adds an email address to it
     [Tags]    add    email    emailgroup
     Open VibeCatch
-    Login
+    Login    ${USERNAME}    ${PASSWORD}
     Sleep    15
     Create A New Email Group
     Sleep    5

@@ -11,7 +11,7 @@ Create A New Email Group
     [Documentation]    Creates a new email group
     [Tags]    create    emailgroup
     Open VibeCatch
-    Login
+    Login    ${USERNAME}    ${PASSWORD}
     Sleep    15
     Create A New Email Group
     

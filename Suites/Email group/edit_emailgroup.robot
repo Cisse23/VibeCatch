@@ -11,7 +11,7 @@ Rename Latest Email Group
     [Documentation]    Creates a new email group and edits its name
     [Tags]    emailgroup
     Open VibeCatch
-    Login
+    Login    ${USERNAME}    ${PASSWORD}
     Sleep    15
     Create A New Email Group
     Sleep    5
