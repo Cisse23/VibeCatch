@@ -40,4 +40,10 @@ ADD_QUESTION_BUTTON = '//vibe-settings-resources//a[contains(text(), "Add")]'
 SELECT_NEW_QUESTION = '//select[@id="readyMade"]'
 CLICK_FIRST_CHOICE = '(//a[@class="mat-mdc-tooltip-trigger btn btn-minimal"][normalize-space()="Select"])[1]'
 ADD_SELECTED_QUESTION = '//button[normalize-space()="Add 1 selected question"]'
+#answercustompoll
+WORST_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[1]//img'
+POOR_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[2]//img'
+AVERAGE_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[3]//img'
+GOOD_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[4]//img'
+BEST_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[5]//img'
 

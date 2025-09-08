@@ -6,7 +6,7 @@ Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
-Library         ../Libs/randomizer.py
+Library         ../libs/randomizer.py
 
 
 *** Keywords ***
