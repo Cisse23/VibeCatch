@@ -6,7 +6,7 @@ Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
-Library         ../libs/randomizer.py
+Library         ../libs/Randomizer.py
 
 
 *** Keywords ***
@@ -220,3 +220,58 @@ Create And Verify 360 Poll
     ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
     Verify Poll Created    ${pollname}
 
+Fill QWL Poll
+    [Documentation]    Fill QWL Poll with random or selected answers from a chosen pool.
+    [Arguments]    ${name_poll}=QWL Poll    ${pool}=ALL    ${seed}=${NONE}    ${fixed_answer}=${NONE}
+    Wait For Elements State
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${name_poll}")] ][1]//a[@mattooltip="View poll form"]
+    ...    visible
+    ...    10s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${name_poll}")] ][1]//a[@mattooltip="View poll form"]
+    Sleep    20    # doesn't work without sleep
+    Switch Page    NEW
+    Wait For Elements State    ${NEXT_BUTTON_FEEDBACK}    visible    20s
+    Click    ${NEXT_BUTTON_FEEDBACK}
+    ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+    WHILE    ${True}
+        ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        IF    '${fixed_answer}' != '${NONE}'
+            ${random_locator}=    Set Variable    ${fixed_answer}
+        ELSE
+            ${random_locator}=    Get Random Xpath Answer    ${pool}    ${seed}
+        END
+        Click    ${${random_locator}}
+        IF    ${visible_elements} >= 1
+            Click    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        ELSE
+            BREAK
+        END
+    END
+    Click    ${SEND_FEEDBACK_BUTTON}
+    Wait For Elements State    ${THANK_YOU_FEEDBACK_MESSAGE}    timeout=10
+
+Answer QWL Poll
+    [Documentation]    Answers QWL Poll's questions with random or seeded answers from chosen pool.
+    [Arguments]    ${name_poll}= QWL Poll    ${pool}=ALL    ${seed}=${NONE}    ${fixed_answer}=${NONE}
+    Wait For Elements State    ${LOG_OUT_ELEMENT}    timeout=10
+    Sleep    10    # doesn't work without
+    Fill QWL Poll
+
+Create A New QWL Poll With No Name
+    [Documentation]    Fails to create a QWL poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_QWL_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+Create A New Custom Poll With No Name
+    [Documentation]    Fails to create a custom poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_CUSTOM_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+Create A New 360 Feedback Poll With No Name
+    [Documentation]    Fails to create a 360 feedback poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_360_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s

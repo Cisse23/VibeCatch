@@ -5,6 +5,7 @@ import string
 
 @library
 class Randomizer:
+    ROBOT_LIBRARY_SCOPE = "GLOBAL"
 
     @keyword
     def generate_random_username(self, length=10):

@@ -46,4 +46,18 @@ POOR_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight"
 AVERAGE_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[3]//img'
 GOOD_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[4]//img'
 BEST_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[5]//img'
+#answerQWLpoll
+QUANTATIVE_0 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased dramatically"]'
+QUANTATIVE_1 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased considerably"]'         
+QUANTATIVE_2 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased somewhat"]'
+QUANTATIVE_3 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased slightly"]'
+ALL_GOOD_4 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity and quality are good"]'
+QUALITY_3 = '//form-root/div/div[not(@hidden)]//a[@title="Quality needs to be improved slightly"]'
+QUALITY_2 = '//form-root/div/div[not(@hidden)]//a[@title="Quality needs to be improved somewhat"]'
+QUALITY_1 = '//form-root/div/div[not(@hidden)]//a[@title="Quality needs to be improved considerably"]'
+QUALITY_0 = '//form-root/div/div[not(@hidden)]//a[@title="Quality needs to be improved dramatically"]'
+NEXT_BUTTON_FEEDBACK = '//a[@class="nextButton"]'
+NEXT_PAGE_BUTTON_QWL_POLL = '//a[contains(@class,"nextPage")]'
+SEND_FEEDBACK_BUTTON = '//span[@class="pageButton sendFeedbackPageButton nextPage"]'
+THANK_YOU_FEEDBACK_MESSAGE = '//div[normalize-space(text())="Thank you for your feedback!"]'
 
