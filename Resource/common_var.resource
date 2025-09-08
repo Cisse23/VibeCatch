@@ -4,3 +4,4 @@ ${STATUS}       ${TRUE}
 ${HEADLESS}     ${False}
 ${EMAIL_GROUP_NAME}    onneksonperjantai
 ${NEW_EMAIL_GROUP_NAME}    uusinimi
+
