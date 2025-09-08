@@ -2,7 +2,7 @@
 Documentation       Tests login functionality with valid and invalid credentials
 Resource            ../../Resource/keywords.resource
 
-Test Setup          Open VibeCheck
+Test Setup          Open VibeCatch
 Test Teardown       Close Browser
 Test Template       Login Test
 

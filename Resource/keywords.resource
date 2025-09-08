@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation   Keywords resource file for Suites
+Library         String
 Library         Browser    enable_presenter_mode=true
+Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
@@ -8,7 +10,7 @@ Library         ../Libs/randomizer.py
 
 
 *** Keywords ***
-Open VibeCheck
+Open VibeCatch
     [Documentation]    Open website with given url
     [Arguments]    ${browser}=chromium    ${headless}=${HEADLESS}
     New Browser    browser=${browser}    headless=${headless}
@@ -33,9 +35,9 @@ Close Browser And Logout
     Logout
     Close Browser
 
-Open And Login VibeCheck
+Open And Login VibeCatch
     [Documentation]    Open website with given url and logins
-    Open VibeCheck
+    Open VibeCatch
     Login    ${username}    ${password}
 
 Login And Return Status
@@ -92,3 +94,129 @@ Add Email Address
     Type Text    ${EMAIL_FIELD}    ${email}
     Click    ${EMAIL_ADD_BUTTON}
     Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+
+Create QWL Poll
+    [Documentation]    Generates new Default QWL Poll with random name automatically and saves it.
+    [Arguments]    ${project_prefix}=QWL Poll
+    ...    ${rand_len}=5
+    ...    ${charset}=[LOWER]
+    ...    ${type}=complete
+    ...    ${organization_type}=traditional
+    ...    ${hide_vector_graphs}=${TRUE}
+    ...    ${number_of_questions}=All
+    # Build a unique poll name
+    ${suffix}=    Generate Random String    ${rand_len}    ${charset}
+    ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+    Wait For Elements State    ${ADD_NEW_PROJECT}    timeout=15
+    Click    ${ADD_NEW_PROJECT}
+    Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
+    Click    ${CREATE_QWL_POLL_BUTTON}
+    Select Options By    ${QWL_TYPE_OPTIONS}    value    ${type}
+    Select Options By    ${ORGANIZATION_TYPE_OPTIONS}    label    ${organization_type}
+    IF    ${hide_vector_graphs}
+        Check Checkbox    ${HIDE_VECTOR_GRAPHS_CHECKBOX}
+    ELSE
+        Uncheck Checkbox    ${HIDE_VECTOR_GRAPHS_CHECKBOX}
+    END
+    Click    //button[contains(text(),"${number_of_questions}")]
+    Click    //a[@id="save" and contains(text(), "Save changes")]
+    RETURN    ${poll_name}
+
+Verify Poll Created
+    [Documentation]    Verify that poll is created
+    [Arguments]    ${pollname}
+    Go To    ${URL}
+    Sleep    10
+    Wait For Elements State    //a[normalize-space()="${pollname}"]    visible    timeout=120s
+
+Create And Verify QWL Poll
+    [Documentation]    Create and verify that poll is created
+    [Arguments]    ${project_prefix}=QWL Poll
+    ...    ${rand_len}=5
+    ...    ${charset}=[LOWER]
+    ...    ${type}=complete
+    ...    ${organization_type}=traditional
+    ...    ${hide_vector_graphs}=${TRUE}
+    ...    ${number_of_questions}=All
+    ${pollname}=    Create QWL Poll    ${project_prefix}    ${rand_len}    ${charset}
+    Verify Poll Created    ${pollname}
+
+Create Custom Poll
+    [Documentation]    Creates a new Custom Poll with a generated name and a list of questions.
+    ...    Returns the full poll name so tests can assert on it.
+    [Arguments]    ${project_prefix}=Custom Poll    ${rand_len}=5    ${charset}=[LOWER]    @{questions}
+    # Build a unique poll name
+    ${suffix}=    Generate Random String    ${rand_len}    ${charset}
+    ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+
+    # Create project/poll
+    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=15
+    Click    ${ADD_NEW_PROJECT}
+    Wait For Elements State    ${ADD_PROJECT_NAME}    visible    10s
+    Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
+    Wait For Elements State    ${CREATE_CUSTOM_POLL_BUTTON}    enabled    10s
+    Click    ${CREATE_CUSTOM_POLL_BUTTON}
+    # Add questions
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON}    visible    10s
+    Click    ${ADD_QUESTIONS_BUTTON}
+    FOR    ${q}    IN    @{questions}
+        Wait For Elements State    ${TYPE_QUESTIONS_FIELD}    visible    5s
+        Type Text    ${TYPE_QUESTIONS_FIELD}    ${q}    clear=False
+    END
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON2}    enabled    10s
+    Click    ${ADD_QUESTIONS_BUTTON2}
+    RETURN    ${poll_name}
+
+Create And Verify Custom Poll
+    [Documentation]    Verify that custom poll is created
+    [Arguments]    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
+    ${pollname}=    Create Custom Poll    ${project_prefix}    ${rand_len}    ${charset}    @{questions}
+    Verify Poll Created    ${pollname}
+
+Create 360 Poll
+    [Documentation]    Generates new 360 Poll with random name automatically and adds one random question.
+    [Arguments]    ${project_prefix}=360 Poll
+    ...    ${rand_len}=5
+    ...    ${charset}=[LOWER]
+    ...    ${question_index}=RANDOM
+    ...    ${min_index}=3
+    ...    ${max_allowed}=12
+    ${suffix}=    Generate Random String    ${rand_len}    ${charset}
+    ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=20s
+    Click    ${ADD_NEW_PROJECT}
+    Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
+    Click    ${CREATE_360_POLL_BUTTON}
+    Wait For Elements State    ${ADD_QUESTION_BUTTON}    visible    timeout=20s
+    VAR    ${status}=    ${False}
+    WHILE    not ${status}    limit=5
+        Click    ${ADD_QUESTION_BUTTON}
+        ${status}=    Run Keyword And Return Status
+        ...    Wait For Elements State
+        ...    ${SELECT_NEW_QUESTION}
+        ...    visible
+        ...    timeout=3
+    END
+    Wait For Elements State    ${SELECT_NEW_QUESTION}    visible    timeout=30s
+    Click    ${SELECT_NEW_QUESTION}
+    IF    '${question_index}' == 'RANDOM' or '${question_index}' == '${EMPTY}'
+        ${random_index}=    Get Random Index Answer
+    ELSE
+        ${random_index}=    Set Variable    ${question_index}
+    END
+    Select Options By    ${SELECT_NEW_QUESTION}    index    ${random_index}
+    Click    ${CLICK_FIRST_CHOICE}
+    Click    ${ADD_SELECTED_QUESTION}
+    RETURN    ${poll_name}
+
+Create And Verify 360 Poll
+    [Documentation]    Generates new 360 Poll with random name automatically, adds one random question and verifies it.
+    [Arguments]    ${project_prefix}
+    ...    ${rand_len}
+    ...    ${charset}
+    ...    ${question_index}
+    ...    ${min_index}
+    ...    ${max_allowed}
+    ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
+    Verify Poll Created    ${pollname}
+
