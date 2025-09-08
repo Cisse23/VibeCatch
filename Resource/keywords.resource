@@ -6,6 +6,7 @@ Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
+Library         ../Libs/randomizer.py
 
 
 *** Keywords ***
@@ -56,6 +57,43 @@ Login Test
     [Arguments]    ${username}    ${password}    ${expected_result}
     ${status}=    Login And Return Status    ${username}    ${password}
     Should Be Equal    ${status}    ${expected_result}
+
+Create A New Email Group
+    [Documentation]    Creates a new email group
+    Click    ${ALL_USERS_PAGE}
+    Click    ${EMAIL_GROUPS_BUTTON}
+    Click    ${ADD_NEW_EMAIL_GROUP}
+    Type Text    ${NEW_EMAIL_GROUP_NAME_FIELD}    ${email_group_name}
+    Click    ${NEW_EMAIL_GROUP_OK}
+    Sleep    15
+    # Sleep, jotta toiminnot ehtivät mennä läpi
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+
+Edit Email Group Name
+    [Documentation]    Changes the name of the last created email group
+    Click    ${RENAME_EMAIL_GROUP}
+    Wait For Elements State    ${RENAME_EMAIL_GROUP_FIELD}    visible
+    Click    ${RENAME_EMAIL_GROUP_FIELD}
+    Focus       ${RENAME_EMAIL_GROUP_FIELD}
+    Fill Text    ${RENAME_EMAIL_GROUP_FIELD}    ${new_email_group_name}
+    Click    ${RENAME_EMAIL_GROUP_OK}
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+
+Delete Email Group
+    [Documentation]    Deletes the last created email group
+    Click    ${REMOVE_EMAILGROUP_BUTTON}
+    Click    ${REMOVE_EMAIL_GROUP_OK}
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+
+Add Email Address
+    [Documentation]    Adds a randomly generated email address to the latest email group
+    ${email}=    Generate Random Email
+    Click    ${LAST_EMAIL_GROUP}
+    Wait For Elements State    ${ADD_EMAILS_BUTTON}    visible    15s
+    Click   ${ADD_EMAILS_BUTTON}
+    Type Text    ${EMAIL_FIELD}    ${email}
+    Click    ${EMAIL_ADD_BUTTON}
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
 
 Create QWL Poll
     [Documentation]    Generates new Default QWL Poll with random name automatically and saves it.
@@ -181,3 +219,4 @@ Create And Verify 360 Poll
     ...    ${max_allowed}
     ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
     Verify Poll Created    ${pollname}
+
