@@ -275,3 +275,60 @@ Create A New 360 Feedback Poll With No Name
     Click    ${ADD_NEW_PROJECT}
     Click    ${CREATE_360_POLL_BUTTON}
     Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+# Answer 360 Poll
+Create New 360 Feedback Poll With Default Settings
+    [Documentation]    Use the given name to create a new 360 Feedback poll
+    ...    with default settings and default questions.
+    [Arguments]    ${poll_name}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
+    Click    ${CREATE_NEW_POLL_BUTTON_FIRST}
+    Type Text    ${POLL_NAME_FIELD}    ${poll_name}
+    Click    ${CREATE_360_FEEDBACK_BUTTON}
+    Wait For Elements State    ${POLL_FORM_LINK}    visible    timeout=60
+
+Open Poll Form
+    [Documentation]    Opens a poll form by clicking its link, switching to the new tab,
+    ...    and waiting until the evaluator name field is visible.
+    Click    ${POLL_FORM_LINK}
+    Wait Until Keyword Succeeds    10x    3s    Switch Page    NEW
+    # Wait For Heavy Page Elements To Load    ${TIMEOUT_BIG}
+    Wait For Elements State    ${EVALUATOR_NAME_FIELD}    visible    timeout=60
+
+Enter Evaluator Name
+    [Documentation]    Starts answering a 360 Feedback poll by entering the evaluator name and clicking next.
+    [Arguments]    ${test_evaluator_name}
+    Type Text    ${EVALUATOR_NAME_FIELD}    ${test_evaluator_name}
+    Click    ${NEXT_BUTTON_360_POLL_FORM}
+
+Answer 360 Feedback Questions
+    [Documentation]    Completes a 360 Feedback poll by answering
+    ...    each question with the first available option,
+    ...    and submitting the evaluation at the end.
+    @{question_blocks}    Get Elements    ${RATING_BUTTONS_CONTAINER}
+    ${question_count}    Evaluate    len(${question_blocks})
+    Log    \n Found queations: ${question_count}
+    WHILE    ${question_count} > 0
+        @{options}    Get Elements    ${RATING_OPTIONS}
+        Click    ${options[0]}
+
+        ${question_count}    Evaluate    ${question_count} - 1
+        ${is_last_question}    Run Keyword And Return Status    Get Element    ${SUBMIT_EVALUATION_BUTTON}
+        IF    ${is_last_question}
+            Click    ${SUBMIT_EVALUATION_BUTTON}
+        ELSE
+            Click    ${NEXTQUESTION_BUTTON_360_POLL_FORM}
+        END
+    END
+
+Delete Poll
+    [Documentation]    Deletes poll and waits for Dashboard to load.
+    ...    Assumes that poll settings is already open.
+    Scroll To    ${TWEAK_FEEDBACK_OR_REMOVE_POLL}
+    Click    ${TWEAK_FEEDBACK_OR_REMOVE_POLL}
+    Wait For Elements State    text=Delete this poll and all its feedback completely
+    Click    ${DELETE_THIS_POLL_AND_ALL_ITS_FEEDBACK_COMPLETELY}
+    Click    ${DELETE_NOW}
+    Type Text    ${DESTROY_INPUT_FIELD}    DESTROY
+    Click    ${DESTROY_OK_BUTTON}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
