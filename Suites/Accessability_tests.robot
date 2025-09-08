@@ -7,6 +7,7 @@ ${URL}          https://env-5369504.paas.datacenter.fi/
 ${STATUS}       ${TRUE}
 ${HEADLESS}     ${False}
 
+
 *** Test Cases ***
 Test Accessibility
     [Documentation]    Testing if website meets accessability standards
