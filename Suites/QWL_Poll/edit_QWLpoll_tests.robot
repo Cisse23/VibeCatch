@@ -2,10 +2,11 @@
 Library    Browser
 Resource    ../Resources/keywords.resource
 Resource    ../Resources/variables.resource
-Library    ../Libs/randomizer.py
+Library    ../Libs/Randomizer.py
 Suite Setup    New Context
 Suite Teardown    Close Browser
 Test Tags    common
+
 
 
 *** Test Cases ***
