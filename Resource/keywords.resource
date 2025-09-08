@@ -257,3 +257,21 @@ Answer QWL Poll
     Wait For Elements State    ${LOG_OUT_ELEMENT}    timeout=10
     Sleep    10    # doesn't work without
     Fill QWL Poll
+
+Create A New QWL Poll With No Name
+    [Documentation]    Fails to create a QWL poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_QWL_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+Create A New Custom Poll With No Name
+    [Documentation]    Fails to create a custom poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_CUSTOM_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+Create A New 360 Feedback Poll With No Name
+    [Documentation]    Fails to create a 360 feedback poll because it's missing a name
+    Click    ${ADD_NEW_PROJECT}
+    Click    ${CREATE_360_POLL_BUTTON}
+    Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
