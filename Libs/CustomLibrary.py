@@ -43,3 +43,24 @@ class CustomLibrary:
         """
         random_index = random.randint(3, 12)  
         return random_index
+    
+    @keyword
+    def get_random_custom_poll_answer(self, pool='ALL'):
+        """
+        Returns a locator variable name like 'POOR_ICON' that you can dereference
+        in Robot as ${${random_locator}}.
+        pool: 'WORST_ICON','POOR_ICON','AVERAGE_ICON','GOOD_ICON','BEST_ICON'
+        """
+        buckets = {
+            'ALL': [
+                'WORST_ICON','POOR_ICON','AVERAGE_ICON','GOOD_ICON',
+                'BEST_ICON',
+            ],
+            'ALL_GOOD':   ['AVERAGE_ICON'],
+
+            # Convenience “sentiments” (tweak as you like)
+            'POSITIVE':   ['GOOD_ICON','BEST_ICON'],
+            'NEGATIVE':   ['WORST_ICON','POOR_ICON']
+        }
+        items = buckets.get(str(pool).upper(), buckets['ALL'])
+        return random.choice(items)
