@@ -20,10 +20,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
 
 RUN rfbrowser init
 
-COPY Suites/    /VibeCatch/Suites/
-COPY Resources/ /VibeCatch/Resources/
-COPY Libs/      /VibeCatch/Libs/
-ENV PYTHONPATH="/VibeCatch/Libs:${PYTHONPATH}"
+COPY Suites//VibeCatch/Suites/
+COPY Resource//VibeCatch/Resource/
+COPY libs//VibeCatch/libs/
+ENV PYTHONPATH="/VibeCatch/libs:${PYTHONPATH}"
 
 WORKDIR /VibeCatch
 
