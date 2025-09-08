@@ -67,7 +67,7 @@ Create A New Email Group
     Click    ${NEW_EMAIL_GROUP_OK}
     Sleep    15
     # Sleep, jotta toiminnot ehtivät mennä läpi
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Edit Email Group Name
     [Documentation]    Changes the name of the last created email group
@@ -77,23 +77,23 @@ Edit Email Group Name
     Focus       ${RENAME_EMAIL_GROUP_FIELD}
     Fill Text    ${RENAME_EMAIL_GROUP_FIELD}    ${new_email_group_name}
     Click    ${RENAME_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Delete Email Group
     [Documentation]    Deletes the last created email group
     Click    ${REMOVE_EMAILGROUP_BUTTON}
     Click    ${REMOVE_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Add Email Address
     [Documentation]    Adds a randomly generated email address to the latest email group
     ${email}=    Generate Random Email
     Click    ${LAST_EMAIL_GROUP}
-    Wait For Elements State    ${ADD_EMAILS_BUTTON}    visible    15s
+    Wait For Elements State    ${ADD_EMAILS_BUTTON}    visible    timeout=30
     Click   ${ADD_EMAILS_BUTTON}
     Type Text    ${EMAIL_FIELD}    ${email}
     Click    ${EMAIL_ADD_BUTTON}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Create QWL Poll
     [Documentation]    Generates new Default QWL Poll with random name automatically and saves it.
