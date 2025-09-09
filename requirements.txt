@@ -3,3 +3,5 @@ robotframework-browser
 python-dotenv
 pandas
 requests
+robotframework-axelibrary
+robotframework-seleniumlibrary
