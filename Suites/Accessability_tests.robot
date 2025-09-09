@@ -6,7 +6,6 @@ Resource            ../Resource/common_var.resource
 
 Test Tags           accessability
 
-
 *** Test Cases ***
 Test Accessibility
     [Documentation]    Testing if website meets accessability standards
