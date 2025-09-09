@@ -1,8 +1,9 @@
 *** Settings ***
 Library    Browser
-Resource    ../Resources/keywords.resource
-Resource    ../Resources/variables.resource
-Library    ../Libs/Randomizer.py
+Resource   ../../Resource/keywords.resource
+Resource   ../../Resource/common_var.resource
+Variables  ../../Resource/locators.py
+Library    ../../libs/Randomizer.py
 Suite Setup    New Context
 Suite Teardown    Close Browser
 Test Tags    common

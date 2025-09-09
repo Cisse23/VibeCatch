@@ -1,23 +1,25 @@
 *** Settings ***
 Library    Browser
-Resource    ../Resource/keywords.resource
-Resource    ../Resource/variables.resource
-Library    ../Libs/randomizer.py
+Resource   ../../Resource/keywords.resource
+Resource   ../../Resource/common_var.resource
+Variables  ../../Resource/locators.py
+Library    ../../libs/Randomizer.py
 Suite Setup    New Context
 Suite Teardown    Close Browser
 Test Tags    common
 
 
+
 *** Test Cases ***
 Create A New Custom Poll With A Question
-    [Documentation]    Creates A New Custom Poll With A Randomly Generated Question And Deletes The Poll Eventually
-    [Tags]    create    poll    question    delete    custom
     Open VibeCatch
     Login To Vibecatch
-    Sleep    15
-    Create A New Custom Poll
-    Sleep    15
+    Sleep    10
+    ${poll_name}=    Create A New Custom Poll
+    Sleep    10
     Edit Custom Poll Name
-    Sleep    35
-    Delete Custom Poll
+    Sleep    10
+    Delete Custom Poll    ${poll_name}
     Sleep    5
+
+
