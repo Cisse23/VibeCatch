@@ -9,6 +9,7 @@ Resource    ../Resource/keywords.resource
 Suite Setup       Open Website
 Suite Teardown    Close Browser
 
+
 *** Test Cases ***
 Create Poll Under Threshold
     Login Modal Aware                ${email}    ${password}
