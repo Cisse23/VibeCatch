@@ -258,6 +258,36 @@ Answer QWL Poll
     Sleep    10    # doesn't work without
     Fill QWL Poll
 
+Answer Custom Poll
+    [Documentation]    Answer custom poll with random or selected answers from POSITIVE or NEGATIVE pool.
+    [Arguments]    ${poll_name}=Custom Poll    ${pool}=ALL    ${fixed_answer}=${NONE}
+    Wait For Elements State
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    ...    visible
+    ...    20s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    Sleep    5
+    Switch Page    NEW
+    Wait For Elements State    ${NEXT_BUTTON_FEEDBACK}    visible    20s
+    Click    ${NEXT_BUTTON_FEEDBACK}
+    WHILE    True
+        ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        IF    '${fixed_answer}' != '${NONE}'
+            VAR      ${random_locator}    ${fixed_answer}
+        ELSE
+            ${random_locator}=    Get Random Custom Poll Answer    ${pool}
+        END
+        Click    ${${random_locator}}
+        IF    ${visible_elements} >= 1
+            Click    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        ELSE
+            BREAK
+        END
+    END
+    Click    ${SEND_FEEDBACK_BUTTON}
+    Wait For Elements State    ${THANK_YOU_FEEDBACK_MESSAGE}
+
 Create A New QWL Poll With No Name
     [Documentation]    Fails to create a QWL poll because it's missing a name
     Click    ${ADD_NEW_PROJECT}
