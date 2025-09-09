@@ -2,11 +2,10 @@
 Documentation   Keywords resource file for Suites
 Library         String
 Library         Browser
-Library         ../libs/CustomLibrary.py
-Resource        ../Resource/common_var.resource
+
 Variables       ../libs/locators.py
+Resource       ../resource/variables.resource
 Library         ../libs/randomizer.py
-Variables       env_vars.py
 
 
 *** Keywords ***
@@ -421,6 +420,7 @@ Create Poll
     Click                      ${CREATE_QWL_POLL_BUTTON}
     Wait For Load State        networkidle    30s
 
+
 Open Basic Settings
     [Documentation]    Basic Settings akordeonunu açar; gerekirse ayarlara gider.
     [Arguments]    ${poll_name}=${NONE}
@@ -495,7 +495,7 @@ Open Website
     Run Keyword And Ignore Error    Click    ${BTN_ALLOW_COOKIES}
 
 Go To Login
-    [Documentation]    Login formu görünmüyorsa Login’e tıkla, e-posta alanını bekle.
+    [Documentation]    
     ${form_visible}=    Run Keyword And Return Status    Wait For Elements State    ${INPUT_EMAIL}    visible    timeout=1s
     IF    not ${form_visible}
         Wait For Elements State    ${BTN_LOGIN}    visible    timeout=15s
