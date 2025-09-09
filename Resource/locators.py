@@ -1,5 +1,7 @@
 #Main
 FRONT_PAGE = '//nav//a[2]/img'
+LOGO_NAVBAR = '//*[@class="logo"]'
+POLLS_TABLE_ROW = '(//div[@class="row projectRow"])[1]'
 #Login
 LOGIN_BUTTON = '//a[contains(@class, "login")]'
 USERNAME_FIELD = '//*[@id="username"]'
@@ -73,6 +75,9 @@ RATING_BUTTONS_CONTAINER = '//*[@class="threesixtyRatingButtons sideBySideContai
 RATING_OPTIONS = '//*[@class="ratingButton unrated"]'
 NEXTQUESTION_BUTTON_360_POLL_FORM ='//*[@class="pageButton roundPageButton nextPage"]'
 SUBMIT_EVALUATION_BUTTON = '//*[@class="pageButton sendFeedbackPageButton nextPage"]'
+# Edit 360 Poll
+POLL_SETTINGS_BUTTON = '//a[contains(@class, "settings-button")]'
+SAVE_BUTTON = '//*[@id="save"]'
 #Delete Poll
 TWEAK_FEEDBACK_OR_REMOVE_POLL = 'text=Tweak feedback or remove poll'
 DELETE_THIS_POLL_AND_ALL_ITS_FEEDBACK_COMPLETELY = '//*[@class="btn btn-danger delete-project"]'
