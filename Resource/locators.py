@@ -97,6 +97,13 @@ DELETE_NOW = '//*[@class="btn btn-danger btn-smaller remove-project"]'
 DESTROY_INPUT_FIELD = 'xpath=//input[@vibeselecttext]'
 DESTROY_OK_BUTTON = '//*[@class="btn btn-smaller promptOkButton"]'
 DESTROY_CANCEL_BUTTON = '//*[@class="btn-smaller btn-cancel"]'
+DELETE_POLL_BUTTON = '//vibe-settings-advanced-button[@icon="trash"]'
+DELETE_PROJECT_BUTTON = '//a[contains(@class, "delete-project")]'
+DELETE_NOW_POLL_BUTTON = '//button[contains(text(), "Delete now")]'
+TYPE_DESTROY_FIELD = '//input[@vibeselecttext]'
+VERIFY_REMOVAL_OK_BUTTON = '//button[contains(@class, "promptOkButton")]'
+PROJECT_ROW = '//div[@id="masterContainer"]//div[contains(@class, "projectRow")]'
+
 
 # Cookie banner (extra helpers)
 BTN_ALLOW_COOKIES = "//div[contains(@class,'adroll_button_text') and normalize-space(.)='Allow All']"

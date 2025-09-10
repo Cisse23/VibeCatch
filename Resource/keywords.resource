@@ -77,13 +77,13 @@ Edit Email Group Name
     Focus    ${RENAME_EMAIL_GROUP_FIELD}
     Fill Text    ${RENAME_EMAIL_GROUP_FIELD}    ${new_email_group_name}
     Click    ${RENAME_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
 
 Delete Email Group
     [Documentation]    Deletes the last created email group.
     Click    ${REMOVE_EMAILGROUP_BUTTON}
     Click    ${REMOVE_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
 
 Add Email Address
     [Documentation]    Adds a random email address to the last email group.
@@ -93,7 +93,7 @@ Add Email Address
     Click    ${ADD_EMAILS_BUTTON}
     Type Text    ${EMAIL_FIELD}    ${email}
     Click    ${EMAIL_ADD_BUTTON}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
 
 Create QWL Poll
     [Documentation]    Creates a default QWL poll and saves it.
@@ -318,6 +318,23 @@ Create A New 360 Feedback Poll With No Name
     Click    ${ADD_NEW_PROJECT}
     Click    ${CREATE_360_POLL_BUTTON}
     Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+Remove Single Poll By Name
+    [Documentation]    Opens settings for the given poll name and completes the deletion flow.
+    [Arguments]    ${poll_name}    ${destroy_text}=DESTROY    ${wait_timeout}=120s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="Change poll's settings"]
+    Wait For Elements State    ${DELETE_POLL_BUTTON}    visible    ${wait_timeout}
+    Click    ${DELETE_POLL_BUTTON}
+    Wait For Elements State    ${DELETE_PROJECT_BUTTON}    visible    ${wait_timeout}
+    Click    ${DELETE_PROJECT_BUTTON}
+    Wait For Elements State    ${DELETE_NOW_POLL_BUTTON}    visible    ${wait_timeout}
+    Click    ${DELETE_NOW_POLL_BUTTON}
+    Type Text    ${TYPE_DESTROY_FIELD}    ${destroy_text}
+    Wait For Elements State    ${VERIFY_REMOVAL_OK_BUTTON}    visible    ${wait_timeout}
+    Click    ${VERIFY_REMOVAL_OK_BUTTON}
+    # Ensure the row is gone before proceeding
+    Wait For Elements State    ${PROJECT_ROW}    detached    ${wait_timeout}
 
 Create New 360 Feedback Poll With Default Settings
     [Documentation]    Creates a 360 poll with default settings.
