@@ -17,9 +17,9 @@ class PollGenerator:
     """Custom Robot Framework library for VibeCatch tests."""
 
     def __init__(self, csv_path: str = None):
-        #  CSV: <repo_root>/Resources/poll_names.csv  (CASE SENSITIVE!)
+        #  CSV: <repo_root>/Resource/poll_names.csv  (CASE SENSITIVE!)
         if csv_path is None:
-            csv_path = os.path.join(_project_root(), "Resources", "poll_names.csv")
+            csv_path = os.path.join(_project_root(), "Resource", "poll_names.csv")
         self.csv_path = csv_path
         self._names_cache = None
 

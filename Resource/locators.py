@@ -1,14 +1,16 @@
-#Main
+# Main
 FRONT_PAGE = '//nav//a[2]/img'
 LOGO_NAVBAR = '//*[@class="logo"]'
 POLLS_TABLE_ROW = '(//div[@class="row projectRow"])[1]'
-#Login
+
+# Login
 LOGIN_BUTTON = '//a[contains(@class, "login")]'
 USERNAME_FIELD = '//*[@id="username"]'
 PASSWORD_FIELD = '//*[@id="password"]'
-LOGIN_BUTTON2 =  '//input[@value= "Login"]'
+LOGIN_BUTTON2 = '//input[@value="Login"]'
 LOG_OUT_ELEMENT = '//a[contains(text(), "Log out")]'
-#Emailgroup
+
+# Emailgroup
 ALL_USERS_PAGE = 'body > vibe-app > nav > a:nth-child(4)'
 EMAIL_GROUPS_BUTTON = '//*[@id="masterContainer"]/vibe-organization/div/div[3]/vibe-organization-emails/div[1]'
 ADD_NEW_EMAIL_GROUP = '//*[@id="masterContainer"]/vibe-organization/div/div[3]/vibe-organization-emails/div[2]/a'
@@ -24,7 +26,8 @@ LAST_EMAIL_GROUP = '//*[@id="masterContainer"]/vibe-organization/div/div[3]/vibe
 ADD_EMAILS_BUTTON = 'xpath=//*[@id="masterContainer"]/vibe-organization/div/div[3]/vibe-organization-emails/div[2]/div[2]/div/div[last()]/vibe-email-entry/div/div/a'
 EMAIL_FIELD = 'xpath=(//vibe-email-entry-modal//textarea)[last()]'
 EMAIL_ADD_BUTTON = 'xpath=(//vibe-email-entry-modal//button)[last()]'
-#QWL_Poll
+
+# QWL_Poll
 ADD_NEW_PROJECT = '(//a[contains(@class, "add-project")])[1]'
 ADD_PROJECT_NAME = '//*[@id="addProjectName"]'
 CREATE_QWL_POLL_BUTTON = 'text="Create a QWL poll"'
@@ -32,27 +35,31 @@ QWL_TYPE_OPTIONS = '//select[option[@value="complete"]]'
 ORGANIZATION_TYPE_OPTIONS = '//select[option[contains(text(),"traditional")]]'
 HIDE_VECTOR_GRAPHS_CHECKBOX = '//input[@type="checkbox"]'
 SAVE_CHANGES_BUTTON = '//a[@id="save" and contains(text(), "Save changes")]'
-#Custom_Poll
+
+# Custom_Poll
 CREATE_CUSTOM_POLL_BUTTON = 'text="Create a custom poll"'
 ADD_QUESTIONS_BUTTON = '//a[contains(text(),"Add questions")]'
 TYPE_QUESTIONS_FIELD = '//*[@id="customQuestionText"]'
 ADD_QUESTIONS_BUTTON2 = '//button[contains(text(),"Add questions")]'
 ADD_QUESTIONS_BUTTON3 = '//div[@class="buttonContainer"]//button[contains(., "Add questions")]'
-#create360poll
+
+# Create 360 poll
 CREATE_360_POLL_BUTTON = '//button[normalize-space()="Create a 360 feedback poll"]'
 ADD_QUESTION_BUTTON = '//vibe-settings-resources//a[contains(text(), "Add")]'
 SELECT_NEW_QUESTION = '//select[@id="readyMade"]'
 CLICK_FIRST_CHOICE = '(//a[@class="mat-mdc-tooltip-trigger btn btn-minimal"][normalize-space()="Select"])[1]'
 ADD_SELECTED_QUESTION = '//button[normalize-space()="Add 1 selected question"]'
-#answercustompoll
+
+# Answer custom poll
 WORST_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[1]//img'
 POOR_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[2]//img'
 AVERAGE_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[3]//img'
 GOOD_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[4]//img'
 BEST_ICON = '//div[contains(@class,"question") and contains(@class, "fullHeight") and not(@hidden)]//a[5]//img'
-#answerQWLpoll
+
+# Answer QWL poll
 QUANTATIVE_0 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased dramatically"]'
-QUANTATIVE_1 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased considerably"]'         
+QUANTATIVE_1 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased considerably"]'
 QUANTATIVE_2 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased somewhat"]'
 QUANTATIVE_3 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity needs to be increased slightly"]'
 ALL_GOOD_4 = '//form-root/div/div[not(@hidden)]//a[@title="Quantity and quality are good"]'
@@ -64,6 +71,7 @@ NEXT_BUTTON_FEEDBACK = '//a[@class="nextButton"]'
 NEXT_PAGE_BUTTON_QWL_POLL = '//a[contains(@class,"nextPage")]'
 SEND_FEEDBACK_BUTTON = '//span[@class="pageButton sendFeedbackPageButton nextPage"]'
 THANK_YOU_FEEDBACK_MESSAGE = '//div[normalize-space(text())="Thank you for your feedback!"]'
+
 # Answer 360 Poll
 CREATE_NEW_POLL_BUTTON_FIRST = 'xpath=(//div[@class="addProjectButton"]//a[contains(., "Create a new poll")])[1]'
 POLL_NAME_FIELD = '//*[@id="addProjectName"]'
@@ -75,12 +83,14 @@ SETTINGS_LINK_ACTIVE = '//div[@class="project-navigation"]/a[@class="selected" a
 NEXT_BUTTON_360_POLL_FORM = '//*[@class="nextButton"]'
 RATING_BUTTONS_CONTAINER = '//*[@class="threesixtyRatingButtons sideBySideContainer"]'
 RATING_OPTIONS = '//*[@class="ratingButton unrated"]'
-NEXTQUESTION_BUTTON_360_POLL_FORM ='//*[@class="pageButton roundPageButton nextPage"]'
+NEXTQUESTION_BUTTON_360_POLL_FORM = '//*[@class="pageButton roundPageButton nextPage"]'
 SUBMIT_EVALUATION_BUTTON = '//*[@class="pageButton sendFeedbackPageButton nextPage"]'
-# Edit 360 Poll
+
+# Edit 360 Poll (from main)
 POLL_SETTINGS_BUTTON = '//a[contains(@class, "settings-button")]'
 SAVE_BUTTON = '//*[@id="save"]'
-#Delete Poll
+
+# Delete Poll
 TWEAK_FEEDBACK_OR_REMOVE_POLL = 'text=Tweak feedback or remove poll'
 DELETE_THIS_POLL_AND_ALL_ITS_FEEDBACK_COMPLETELY = '//*[@class="btn btn-danger delete-project"]'
 DELETE_NOW = '//*[@class="btn btn-danger btn-smaller remove-project"]'
@@ -93,3 +103,37 @@ DELETE_NOW_POLL_BUTTON = '//button[contains(text(), "Delete now")]'
 TYPE_DESTROY_FIELD = '//input[@vibeselecttext]'
 VERIFY_REMOVAL_OK_BUTTON = '//button[contains(@class, "promptOkButton")]'
 PROJECT_ROW = '//div[@id="masterContainer"]//div[contains(@class, "projectRow")]'
+
+
+# Cookie banner (extra helpers)
+BTN_ALLOW_COOKIES = "//div[contains(@class,'adroll_button_text') and normalize-space(.)='Allow All']"
+
+# Login form (extra helpers)
+BTN_LOGIN = "//a[@class='login']"
+INPUT_EMAIL = "input#username"
+INPUT_PASSWORD = "input#password"
+BTN_SUBMIT_LOGIN = "//input[@type='submit' and @value='Login']"
+
+# Create poll (extra helpers)
+BTN_CREATE_POLL = "xpath=(//a[contains(@class,'add-project')])[1]"
+INPUT_POLL_NAME = "input#addProjectName"
+BTN_CREATE_QWL_POLL = "//button[normalize-space()='Create a QWL poll']"
+
+# Basic Settings & Save (extra helpers)
+SECT_BASIC_SETTINGS = "css=vibe-settings-advanced-button[icon='cog'] .accordionTitle"
+BTN_SAVE = "//a[@id='save']"
+BTN_POLL_SETTINGS = "//i[contains(@class,'fa-gears')]"
+
+# Removal / Delete flow (extra helpers)
+SECT_REMOVE = "//vibe-settings-advanced-button[contains(@class,'removal-section')]//div[contains(@class,'accordionTitle')]"
+BTN_DELETE_PROJECT = "//a[contains(@class,'btn-danger') and contains(@class,'delete-project')]"
+BTN_DELETE_NOW = "//button[normalize-space()='Delete now']"
+INPUT_DESTROY_PROMPT = "input.promptInput"
+BTN_OK = "//button[normalize-space()='OK']"
+
+# Logout (extra helper)
+BTN_LOGOUT = "//a[normalize-space()='Log out']"
+
+# Translation dropdown (extra helpers)
+DDL_ADD_TRANSLATION = '//span[contains(text(),"Add")]/select'
+OPT_TRANSLATION_FINNISH_FULL_QWL = "Finnish (full QWL report and questions)"
