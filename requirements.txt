@@ -6,4 +6,4 @@ pandas
 requests
 robotframework-axelibrary
 robotframework-seleniumlibrary
-
+robotframework-jsonlibrary
