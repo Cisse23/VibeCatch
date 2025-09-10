@@ -410,3 +410,31 @@ Delete Poll
     Click    ${DESTROY_OK_BUTTON}
     Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
 
+Verify Poll Was Deleted
+    [Documentation]    Verifies that a poll has been successfully deleted by comparing
+    ...    the number of polls with the given name before and after deletion.
+    ...    Fails if the count has not decreased.
+    ...    ${poll_name} = Name string of the poll
+    ...    ${count_polls_before} = Int amount of polls before One was deleted
+    [Arguments]    ${poll_name}    ${count_polls_before}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
+    @{polls_with_name_after}    Find Polls By Name    ${poll_name}
+    ${count_polls_after}    Evaluate    len(${polls_with_name_after})
+    Should Be True    ${count_polls_before} > ${count_polls_after}
+
+Find Polls By Name
+    [Documentation]    Finds all polls with the given name and returns them as a list.
+    ...                Assumes Dashvoard to be open.
+    [Arguments]    ${poll_name}
+    Wait For Elements State    ${POLLS_TABLE_ROW}    visible    timeout=120
+    @{polls}    Get Elements    xpath=//a[@class="project-name" and normalize-space(.)="${poll_name}"]
+    RETURN    ${polls}
+
+Open Poll Settings
+    [Documentation]    Opens the settings page for the selected poll.
+    [Arguments]    ${poll_title_locator}
+    Click    ${poll_title_locator}
+    Wait For Elements State    ${SETTINGS_LINK}    visible    timeout=60
+    Click    ${SETTINGS_LINK}
+    Wait For Elements State    ${SETTINGS_LINK_ACTIVE}    timeout=60
+
