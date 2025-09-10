@@ -7,7 +7,7 @@ Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
 
-Library         ../libs/Randomizer.py
+Library         ../libs/randomizer.py
 
 *** Keywords ***
 Open VibeCatch
@@ -479,3 +479,13 @@ Add Finnish
     Click                      ${DDL}
     Select Options By          ${DDL}    label    Finnish (full QWL report and questions)
     Click                      ${SAVE_CHANGES_BUTTON}
+Create Poll
+    [Documentation]    Creates a new poll: click Create → enter name → 'Create a QWL poll' → wait for settings.
+    [Arguments]    ${poll_name}
+    Wait For Elements State    xpath=//body/vibe-app/div[@id='masterContainer']/vibe-list/div[2]/div[1]/a[1]    visible    timeout=20s
+    Click                      xpath=//body/vibe-app/div[@id='masterContainer']/vibe-list/div[2]/div[1]/a[1]
+    Wait For Elements State    xpath=//input[@id='addProjectName']    visible    timeout=20s
+    Fill Text                  xpath=//input[@id='addProjectName']    ${poll_name}
+    Wait For Elements State    xpath=//button[normalize-space()='Create a QWL poll']    visible    timeout=15s
+    Click                      xpath=//button[normalize-space()='Create a QWL poll']
+    Wait For Load State        networkidle    timeout=30s
