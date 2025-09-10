@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation   Keywords resource file for Suites
+Library         ScreenCapLibrary
 Library         String
 Library         Browser
 Library         ../libs/CustomLibrary.py
@@ -108,12 +109,14 @@ Create QWL Poll
     ${suffix}=    Generate Random String    ${rand_len}    ${charset}
     ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
     Sleep    10
-    Wait For Elements State    ${ADD_NEW_PROJECT}    timeout=15
+    Wait For Elements State    ${ADD_NEW_PROJECT}    timeout=20
     Click    ${ADD_NEW_PROJECT}
+    Sleep    10
+    Wait For Elements State    ${CREATE_QWL_POLL_BUTTON}    timeout=20
     Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
     Click    ${CREATE_QWL_POLL_BUTTON}
     Sleep    10
-    Select Options By    ${QWL_TYPE_OPTIONS}    value    ${type}     ${QWL_TYPE_OPTIONS}
+    Select Options By    ${QWL_TYPE_OPTIONS}    value    ${type}
     Select Options By    ${ORGANIZATION_TYPE_OPTIONS}    label    ${organization_type} 
     IF    ${hide_vector_graphs}
         Check Checkbox    ${HIDE_VECTOR_GRAPHS_CHECKBOX}
@@ -140,7 +143,14 @@ Create And Verify QWL Poll
     ...    ${organization_type}=traditional
     ...    ${hide_vector_graphs}=${TRUE}
     ...    ${number_of_questions}=All
-    ${pollname}=    Create QWL Poll    ${project_prefix}    ${rand_len}    ${charset}
+    ${pollname}=    Create QWL Poll
+    ...    ${project_prefix}
+    ...    ${rand_len}
+    ...    ${charset}
+    ...    ${type}
+    ...    ${organization_type}
+    ...    ${hide_vector_graphs}
+    ...    ${number_of_questions}
     Verify Poll Created    ${pollname}
 
 Create Custom Poll
@@ -232,7 +242,7 @@ Create And Verify 360 Poll
     ...    ${question_index}
     ...    ${min_index}
     ...    ${max_allowed}
-    ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
+    ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}     ${question_index}    ${min_index}    ${max_allowed}
     Verify Poll Created    ${pollname}
 
 Answer Custom Poll
@@ -303,7 +313,7 @@ Answer QWL Poll
     [Arguments]    ${name_poll}= QWL Poll    ${pool}=ALL    ${seed}=${NONE}    ${fixed_answer}=${NONE}
     Wait For Elements State    ${LOG_OUT_ELEMENT}    timeout=10
     Sleep    10    # doesn't work without
-    Fill QWL Poll
+    Fill QWL Poll    ${name_poll}    ${pool}    ${seed}    ${fixed_answer}
 
 Create A New QWL Poll With No Name
     [Documentation]    Fails to create a QWL poll because it's missing a name
