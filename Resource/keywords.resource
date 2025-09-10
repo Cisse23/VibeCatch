@@ -8,7 +8,7 @@ Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
 
-Library         ../libs/randomizer.py
+Library         ../libs/Randomizer.py
 
 *** Keywords ***
 Open VibeCatch
