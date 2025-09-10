@@ -55,6 +55,26 @@ Run all tests with tag 'smoke' using command
 ```bash
 robot -d results/ --include smoke suites/
 ```
+## Running tests with Docker
+
+NOTE: Tests are not running properly inside docker image due to slow webpage. Adding more sleeps inbetween tests/keywords might solve this problem. 
+
+# Prerequisites
+
+- Docker Desktop
+
+# Build the Docker image:
+
+```
+docker build -t vibecatch_tests .
+```
+
+### Run the image with headful variable:
+
+```
+docker run --rm -e ROBOT_OPTIONS="-v HEADLESS:true" vibecatch_tests
+```
+
 ## Tags 
 Currently used tags in the repository:
 -

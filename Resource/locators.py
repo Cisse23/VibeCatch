@@ -29,11 +29,13 @@ CREATE_QWL_POLL_BUTTON = 'text="Create a QWL poll"'
 QWL_TYPE_OPTIONS = '//select[option[@value="complete"]]'
 ORGANIZATION_TYPE_OPTIONS = '//select[option[contains(text(),"traditional")]]'
 HIDE_VECTOR_GRAPHS_CHECKBOX = '//input[@type="checkbox"]'
+SAVE_CHANGES_BUTTON = '//a[@id="save" and contains(text(), "Save changes")]'
 #Custom_Poll
 CREATE_CUSTOM_POLL_BUTTON = 'text="Create a custom poll"'
 ADD_QUESTIONS_BUTTON = '//a[contains(text(),"Add questions")]'
 TYPE_QUESTIONS_FIELD = '//*[@id="customQuestionText"]'
 ADD_QUESTIONS_BUTTON2 = '//button[contains(text(),"Add questions")]'
+ADD_QUESTIONS_BUTTON3 = '//div[@class="buttonContainer"]//button[contains(., "Add questions")]'
 #create360poll
 CREATE_360_POLL_BUTTON = '//button[normalize-space()="Create a 360 feedback poll"]'
 ADD_QUESTION_BUTTON = '//vibe-settings-resources//a[contains(text(), "Add")]'
