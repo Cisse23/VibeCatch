@@ -1,5 +1,7 @@
 #Main
 FRONT_PAGE = '//nav//a[2]/img'
+LOGO_NAVBAR = '//*[@class="logo"]'
+POLLS_TABLE_ROW = '(//div[@class="row projectRow"])[1]'
 #Login
 LOGIN_BUTTON = '//a[contains(@class, "login")]'
 USERNAME_FIELD = '//*[@id="username"]'
@@ -62,4 +64,26 @@ NEXT_BUTTON_FEEDBACK = '//a[@class="nextButton"]'
 NEXT_PAGE_BUTTON_QWL_POLL = '//a[contains(@class,"nextPage")]'
 SEND_FEEDBACK_BUTTON = '//span[@class="pageButton sendFeedbackPageButton nextPage"]'
 THANK_YOU_FEEDBACK_MESSAGE = '//div[normalize-space(text())="Thank you for your feedback!"]'
-
+# Answer 360 Poll
+CREATE_NEW_POLL_BUTTON_FIRST = 'xpath=(//div[@class="addProjectButton"]//a[contains(., "Create a new poll")])[1]'
+POLL_NAME_FIELD = '//*[@id="addProjectName"]'
+CREATE_360_FEEDBACK_BUTTON = 'text=Create a 360 feedback poll'
+POLL_FORM_LINK = '//*[@class="relativeLinkToForm"]'
+EVALUATOR_NAME_FIELD = 'xpath=//*[@placeholder="Enter your name here"]'
+SETTINGS_LINK = '//div[contains(@class,"project-navigation")]//a[normalize-space(.)="Settings"]'
+SETTINGS_LINK_ACTIVE = '//div[@class="project-navigation"]/a[@class="selected" and normalize-space(.)="Settings"]'
+NEXT_BUTTON_360_POLL_FORM = '//*[@class="nextButton"]'
+RATING_BUTTONS_CONTAINER = '//*[@class="threesixtyRatingButtons sideBySideContainer"]'
+RATING_OPTIONS = '//*[@class="ratingButton unrated"]'
+NEXTQUESTION_BUTTON_360_POLL_FORM ='//*[@class="pageButton roundPageButton nextPage"]'
+SUBMIT_EVALUATION_BUTTON = '//*[@class="pageButton sendFeedbackPageButton nextPage"]'
+# Edit 360 Poll
+POLL_SETTINGS_BUTTON = '//a[contains(@class, "settings-button")]'
+SAVE_BUTTON = '//*[@id="save"]'
+#Delete Poll
+TWEAK_FEEDBACK_OR_REMOVE_POLL = 'text=Tweak feedback or remove poll'
+DELETE_THIS_POLL_AND_ALL_ITS_FEEDBACK_COMPLETELY = '//*[@class="btn btn-danger delete-project"]'
+DELETE_NOW = '//*[@class="btn btn-danger btn-smaller remove-project"]'
+DESTROY_INPUT_FIELD = 'xpath=//input[@vibeselecttext]'
+DESTROY_OK_BUTTON = '//*[@class="btn btn-smaller promptOkButton"]'
+DESTROY_CANCEL_BUTTON = '//*[@class="btn-smaller btn-cancel"]'

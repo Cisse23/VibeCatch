@@ -68,7 +68,7 @@ Create A New Email Group
     Click    ${NEW_EMAIL_GROUP_OK}
     Sleep    15
     # Sleep, jotta toiminnot ehtivät mennä läpi
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Edit Email Group Name
     [Documentation]    Changes the name of the last created email group
@@ -78,23 +78,23 @@ Edit Email Group Name
     Focus       ${RENAME_EMAIL_GROUP_FIELD}
     Fill Text    ${RENAME_EMAIL_GROUP_FIELD}    ${new_email_group_name}
     Click    ${RENAME_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Delete Email Group
     [Documentation]    Deletes the last created email group
     Click    ${REMOVE_EMAILGROUP_BUTTON}
     Click    ${REMOVE_EMAIL_GROUP_OK}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Add Email Address
     [Documentation]    Adds a randomly generated email address to the latest email group
     ${email}=    Generate Random Email
     Click    ${LAST_EMAIL_GROUP}
-    Wait For Elements State    ${ADD_EMAILS_BUTTON}    visible    15s
+    Wait For Elements State    ${ADD_EMAILS_BUTTON}    visible    timeout=30
     Click   ${ADD_EMAILS_BUTTON}
     Type Text    ${EMAIL_FIELD}    ${email}
     Click    ${EMAIL_ADD_BUTTON}
-    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=5s
+    Wait For Elements State    ${ALL_USERS_STATE}    visible    timeout=30
 
 Create QWL Poll
     [Documentation]    Generates new Default QWL Poll with random name automatically and saves it.
@@ -315,6 +315,36 @@ Answer QWL Poll
     Sleep    10    # doesn't work without
     Fill QWL Poll    ${name_poll}    ${pool}    ${seed}    ${fixed_answer}
 
+Answer Custom Poll
+    [Documentation]    Answer custom poll with random or selected answers from POSITIVE or NEGATIVE pool.
+    [Arguments]    ${poll_name}=Custom Poll    ${pool}=ALL    ${fixed_answer}=${NONE}
+    Wait For Elements State
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    ...    visible
+    ...    20s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    Sleep    5
+    Switch Page    NEW
+    Wait For Elements State    ${NEXT_BUTTON_FEEDBACK}    visible    20s
+    Click    ${NEXT_BUTTON_FEEDBACK}
+    WHILE    True
+        ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        IF    '${fixed_answer}' != '${NONE}'
+            VAR      ${random_locator}    ${fixed_answer}
+        ELSE
+            ${random_locator}=    Get Random Custom Poll Answer    ${pool}
+        END
+        Click    ${${random_locator}}
+        IF    ${visible_elements} >= 1
+            Click    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        ELSE
+            BREAK
+        END
+    END
+    Click    ${SEND_FEEDBACK_BUTTON}
+    Wait For Elements State    ${THANK_YOU_FEEDBACK_MESSAGE}
+
 Create A New QWL Poll With No Name
     [Documentation]    Fails to create a QWL poll because it's missing a name
     Click    ${ADD_NEW_PROJECT}
@@ -332,3 +362,89 @@ Create A New 360 Feedback Poll With No Name
     Click    ${ADD_NEW_PROJECT}
     Click    ${CREATE_360_POLL_BUTTON}
     Wait For Elements State    text=Please give a descriptive name for your poll.    visible    timeout=15s
+
+# Answer 360 Poll
+Create New 360 Feedback Poll With Default Settings
+    [Documentation]    Use the given name to create a new 360 Feedback poll
+    ...    with default settings and default questions.
+    [Arguments]    ${poll_name}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
+    Click    ${CREATE_NEW_POLL_BUTTON_FIRST}
+    Type Text    ${POLL_NAME_FIELD}    ${poll_name}
+    Click    ${CREATE_360_FEEDBACK_BUTTON}
+    Wait For Elements State    ${POLL_FORM_LINK}    visible    timeout=60
+
+Open Poll Form
+    [Documentation]    Opens a poll form by clicking its link, switching to the new tab,
+    ...    and waiting until the evaluator name field is visible.
+    Click    ${POLL_FORM_LINK}
+    Wait Until Keyword Succeeds    10x    3s    Switch Page    NEW
+    # Wait For Heavy Page Elements To Load    ${TIMEOUT_BIG}
+    Wait For Elements State    ${EVALUATOR_NAME_FIELD}    visible    timeout=60
+
+Enter Evaluator Name
+    [Documentation]    Starts answering a 360 Feedback poll by entering the evaluator name and clicking next.
+    [Arguments]    ${test_evaluator_name}
+    Type Text    ${EVALUATOR_NAME_FIELD}    ${test_evaluator_name}
+    Click    ${NEXT_BUTTON_360_POLL_FORM}
+
+Answer 360 Feedback Questions
+    [Documentation]    Completes a 360 Feedback poll by answering
+    ...    each question with the first available option,
+    ...    and submitting the evaluation at the end.
+    @{question_blocks}    Get Elements    ${RATING_BUTTONS_CONTAINER}
+    ${question_count}    Evaluate    len(${question_blocks})
+    Log    \n Found queations: ${question_count}
+    WHILE    ${question_count} > 0
+        @{options}    Get Elements    ${RATING_OPTIONS}
+        Click    ${options[0]}
+
+        ${question_count}    Evaluate    ${question_count} - 1
+        ${is_last_question}    Run Keyword And Return Status    Get Element    ${SUBMIT_EVALUATION_BUTTON}
+        IF    ${is_last_question}
+            Click    ${SUBMIT_EVALUATION_BUTTON}
+        ELSE
+            Click    ${NEXTQUESTION_BUTTON_360_POLL_FORM}
+        END
+    END
+
+Delete Poll
+    [Documentation]    Deletes poll and waits for Dashboard to load.
+    ...    Assumes that poll settings is already open.
+    Scroll To    ${TWEAK_FEEDBACK_OR_REMOVE_POLL}
+    Click    ${TWEAK_FEEDBACK_OR_REMOVE_POLL}
+    Wait For Elements State    text=Delete this poll and all its feedback completely
+    Click    ${DELETE_THIS_POLL_AND_ALL_ITS_FEEDBACK_COMPLETELY}
+    Click    ${DELETE_NOW}
+    Type Text    ${DESTROY_INPUT_FIELD}    DESTROY
+    Click    ${DESTROY_OK_BUTTON}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
+
+Verify Poll Was Deleted
+    [Documentation]    Verifies that a poll has been successfully deleted by comparing
+    ...    the number of polls with the given name before and after deletion.
+    ...    Fails if the count has not decreased.
+    ...    ${poll_name} = Name string of the poll
+    ...    ${count_polls_before} = Int amount of polls before One was deleted
+    [Arguments]    ${poll_name}    ${count_polls_before}
+    Wait For Elements State    ${CREATE_NEW_POLL_BUTTON_FIRST}    timeout=60
+    @{polls_with_name_after}    Find Polls By Name    ${poll_name}
+    ${count_polls_after}    Evaluate    len(${polls_with_name_after})
+    Should Be True    ${count_polls_before} > ${count_polls_after}
+
+Find Polls By Name
+    [Documentation]    Finds all polls with the given name and returns them as a list.
+    ...                Assumes Dashvoard to be open.
+    [Arguments]    ${poll_name}
+    Wait For Elements State    ${POLLS_TABLE_ROW}    visible    timeout=120
+    @{polls}    Get Elements    xpath=//a[@class="project-name" and normalize-space(.)="${poll_name}"]
+    RETURN    ${polls}
+
+Open Poll Settings
+    [Documentation]    Opens the settings page for the selected poll.
+    [Arguments]    ${poll_title_locator}
+    Click    ${poll_title_locator}
+    Wait For Elements State    ${SETTINGS_LINK}    visible    timeout=60
+    Click    ${SETTINGS_LINK}
+    Wait For Elements State    ${SETTINGS_LINK_ACTIVE}    timeout=60
+

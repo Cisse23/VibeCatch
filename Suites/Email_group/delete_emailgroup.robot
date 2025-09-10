@@ -12,8 +12,5 @@ Delete Latest Email Group
     [Tags]    delete    emailgroup
     Open VibeCatch
     Login    ${USERNAME}    ${PASSWORD}
-    Sleep    15
     Create A New Email Group
-    Sleep    5
     Delete Email Group
-    

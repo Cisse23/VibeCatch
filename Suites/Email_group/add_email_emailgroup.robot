@@ -12,8 +12,5 @@ Add Email Address To Email Group
     [Tags]    add    email    emailgroup
     Open VibeCatch
     Login    ${USERNAME}    ${PASSWORD}
-    Sleep    15
     Create A New Email Group
-    Sleep    5
     Add Email Address
-    
