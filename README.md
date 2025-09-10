@@ -22,7 +22,7 @@ venv\Scripts\activate
 ```
 Activate virtual environment on Linux / macOS 
 ```bash
-source venv/bin/activate`
+source venv/bin/activate
 ```
 
 ## Dependencies
@@ -95,3 +95,15 @@ Automatically format code:
 ```bash
 robocop format
 ```
+
+# Screencap
+This project uses [robotframework-screencaplibrary](https://pypi.org/project/robotframework-screencaplibrary/) to capture videos for tests. You can set the recording to start in test or suite setup.
+
+```robot
+*** Settings ***
+Library          ScreenCapLibrary
+
+Test Setup       Start Video Recording    name=test-video
+Test Teardown    Stop Video Recording
+```
+When you run your test like this `robot -d results/ Suites/Test/test.robot` the video will be saved in your results folder in .webm format. 

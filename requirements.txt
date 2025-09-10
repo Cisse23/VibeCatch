@@ -1,7 +1,9 @@
 robotframework
 robotframework-browser
+robotframework-screencaplibrary
 python-dotenv
 pandas
 requests
 robotframework-axelibrary
 robotframework-seleniumlibrary
+
