@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation   Keywords resource file for Suites
 Library         String
-Library         Browser    enable_presenter_mode=true
+Library         Browser
 Library         ../libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
@@ -107,19 +107,21 @@ Create QWL Poll
     # Build a unique poll name
     ${suffix}=    Generate Random String    ${rand_len}    ${charset}
     ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
+    Sleep    10
     Wait For Elements State    ${ADD_NEW_PROJECT}    timeout=15
     Click    ${ADD_NEW_PROJECT}
     Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
     Click    ${CREATE_QWL_POLL_BUTTON}
-    Select Options By    ${QWL_TYPE_OPTIONS}    value    ${type}
-    Select Options By    ${ORGANIZATION_TYPE_OPTIONS}    label    ${organization_type}
+    Sleep    10
+    Select Options By    ${QWL_TYPE_OPTIONS}    value    ${type}     ${QWL_TYPE_OPTIONS}
+    Select Options By    ${ORGANIZATION_TYPE_OPTIONS}    label    ${organization_type} 
     IF    ${hide_vector_graphs}
         Check Checkbox    ${HIDE_VECTOR_GRAPHS_CHECKBOX}
     ELSE
         Uncheck Checkbox    ${HIDE_VECTOR_GRAPHS_CHECKBOX}
     END
     Click    //button[contains(text(),"${number_of_questions}")]
-    Click    //a[@id="save" and contains(text(), "Save changes")]
+    Click    ${SAVE_CHANGES_BUTTON}
     RETURN    ${poll_name}
 
 Verify Poll Created
@@ -150,21 +152,34 @@ Create Custom Poll
     ${poll_name}=    Set Variable    ${project_prefix} ${suffix}
 
     # Create project/poll
-    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=15
+    Wait For Elements State    ${ADD_NEW_PROJECT}    visible    timeout=20
     Click    ${ADD_NEW_PROJECT}
     Wait For Elements State    ${ADD_PROJECT_NAME}    visible    10s
     Type Text    ${ADD_PROJECT_NAME}    ${poll_name}
     Wait For Elements State    ${CREATE_CUSTOM_POLL_BUTTON}    enabled    10s
     Click    ${CREATE_CUSTOM_POLL_BUTTON}
-    # Add questions
-    Wait For Elements State    ${ADD_QUESTIONS_BUTTON}    visible    10s
+    # Add questions -button needs to be pressed in loop to activate it
+    Sleep    10
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON}    visible    timeout=30
     Click    ${ADD_QUESTIONS_BUTTON}
-    FOR    ${q}    IN    @{questions}
-        Wait For Elements State    ${TYPE_QUESTIONS_FIELD}    visible    5s
-        Type Text    ${TYPE_QUESTIONS_FIELD}    ${q}    clear=False
+    VAR    ${status}=    ${False}
+    WHILE    not ${status}    limit=5
+        Click    ${ADD_QUESTIONS_BUTTON}
+        ${status}=    Run Keyword And Return Status
+        ...    Wait For Elements State
+        ...    ${TYPE_QUESTIONS_FIELD}
+        ...    visible
+        ...    timeout=3
     END
-    Wait For Elements State    ${ADD_QUESTIONS_BUTTON2}    enabled    10s
-    Click    ${ADD_QUESTIONS_BUTTON2}
+    FOR    ${q}    IN    @{questions}
+        Wait For Elements State    ${TYPE_QUESTIONS_FIELD}    visible    10s
+        Sleep    10
+        Type Text    ${TYPE_QUESTIONS_FIELD}    ${q}    clear=False
+        Sleep    10
+    END
+    Wait For Elements State    ${ADD_QUESTIONS_BUTTON3}    timeout=30
+    Click     ${ADD_QUESTIONS_BUTTON3}
+    Click     ${SAVE_CHANGES_BUTTON}
     RETURN    ${poll_name}
 
 Create And Verify Custom Poll
@@ -220,6 +235,38 @@ Create And Verify 360 Poll
     ${pollname}=    Create 360 Poll    ${project_prefix}    ${rand_len}    ${charset}
     Verify Poll Created    ${pollname}
 
+Answer Custom Poll
+    [Documentation]    Answer custom poll with random or selected answers from POSITIVE or NEGATIVE pool.
+    [Arguments]    ${poll_name}=Custom Poll    ${pool}=ALL    ${fixed_answer}=${NONE}
+    Wait For Elements State
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    ...    visible
+    ...    20s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    Sleep    20
+    Switch Page    NEW
+    Wait For Elements State    ${NEXT_BUTTON_FEEDBACK}    visible    timeout=30
+    Click    ${NEXT_BUTTON_FEEDBACK}
+    Sleep    10
+    Wait For Elements State    ${NEXT_PAGE_BUTTON_QWL_POLL}    visible    timeout=60
+    WHILE    True
+        ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        IF    '${fixed_answer}' != '${NONE}'
+            VAR      ${random_locator}    ${fixed_answer}
+        ELSE
+            ${random_locator}=    Get Random Custom Poll Answer    ${pool}
+        END
+        Click    ${${random_locator}}
+        IF    ${visible_elements} >= 1
+            Click    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        ELSE
+            BREAK
+        END
+    END
+    Click    ${SEND_FEEDBACK_BUTTON}
+    Wait For Elements State    ${THANK_YOU_FEEDBACK_MESSAGE}
+
 Fill QWL Poll
     [Documentation]    Fill QWL Poll with random or selected answers from a chosen pool.
     [Arguments]    ${name_poll}=QWL Poll    ${pool}=ALL    ${seed}=${NONE}    ${fixed_answer}=${NONE}
@@ -257,6 +304,36 @@ Answer QWL Poll
     Wait For Elements State    ${LOG_OUT_ELEMENT}    timeout=10
     Sleep    10    # doesn't work without
     Fill QWL Poll
+
+Answer Custom Poll
+    [Documentation]    Answer custom poll with random or selected answers from POSITIVE or NEGATIVE pool.
+    [Arguments]    ${poll_name}=Custom Poll    ${pool}=ALL    ${fixed_answer}=${NONE}
+    Wait For Elements State
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    ...    visible
+    ...    20s
+    Click
+    ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="View poll form"]
+    Sleep    5
+    Switch Page    NEW
+    Wait For Elements State    ${NEXT_BUTTON_FEEDBACK}    visible    20s
+    Click    ${NEXT_BUTTON_FEEDBACK}
+    WHILE    True
+        ${visible_elements}=    Get Element Count    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        IF    '${fixed_answer}' != '${NONE}'
+            VAR      ${random_locator}    ${fixed_answer}
+        ELSE
+            ${random_locator}=    Get Random Custom Poll Answer    ${pool}
+        END
+        Click    ${${random_locator}}
+        IF    ${visible_elements} >= 1
+            Click    ${NEXT_PAGE_BUTTON_QWL_POLL}
+        ELSE
+            BREAK
+        END
+    END
+    Click    ${SEND_FEEDBACK_BUTTON}
+    Wait For Elements State    ${THANK_YOU_FEEDBACK_MESSAGE}
 
 Create A New QWL Poll With No Name
     [Documentation]    Fails to create a QWL poll because it's missing a name
@@ -360,3 +437,4 @@ Open Poll Settings
     Wait For Elements State    ${SETTINGS_LINK}    visible    timeout=60
     Click    ${SETTINGS_LINK}
     Wait For Elements State    ${SETTINGS_LINK_ACTIVE}    timeout=60
+
