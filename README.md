@@ -55,6 +55,26 @@ Run all tests with tag 'smoke' using command
 ```bash
 robot -d results/ --include smoke suites/
 ```
+
+### Tags 
+Currently used tags in the repository:
+- 360_poll
+- accessibility
+- answer
+- api
+- create
+- custom_poll
+- delete
+- e2e
+- edit
+- email
+- login
+- negative
+- not_independent
+- performance
+- qwl_poll
+- smoke
+
 # Running tests with Docker
 
 NOTE: Tests are not running properly inside docker image due to slow webpage. Adding more sleeps inbetween tests/keywords might solve this problem. 
@@ -74,10 +94,6 @@ docker build -t vibecatch_tests .
 ```
 docker run --rm -e ROBOT_OPTIONS="-v HEADLESS:true" vibecatch_tests
 ```
-
-# Tags 
-Currently used tags in the repository:
--
 
 # Formatting with robocop
 This project uses Robocop for linting and formatting Robot Framework code.
