@@ -33,8 +33,8 @@ pip install -r requirements.txt
 rfbrowser init
 ```
 
-# Secrets for login and api key are hold in .env file and add there:
-
+# Secrets for login and api key are stored in .env file
+Create a file named .env in your local project-root folder and replace <YOUR_USERNAME> and <YOUR_PASSWORD> with your personal login credentials.
 ```
 USER=<YOUR_USERNAME>
 PASSWORD=<YOUR_PASSWORD>
