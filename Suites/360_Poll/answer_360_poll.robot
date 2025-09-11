@@ -10,7 +10,7 @@ Resource            ../../Resource/keywords.resource
 Test Setup          Open And Login VibeCatch
 Test Teardown       Close Page
 
-Test Tags           feedback_poll
+Test Tags           360_poll    answer
 
 
 *** Test Cases ***
@@ -36,6 +36,7 @@ Open 360 Feedback Poll
 Answer 360 Feedback Poll
     [Documentation]    Verifies that a user can answer all questions
     ...    in a 360 Feedback poll and submit the evaluation successfully.
+    [Tags]    e2e
     VAR    ${test_evaluator_name}    Test Robot
     Create New 360 Feedback Poll With Default Settings    Test-poll
     Open Poll Form

@@ -3,7 +3,7 @@ from robot.api.deco import library, keyword   # I bring in Robot's decorators so
 from robot.libraries.BuiltIn import BuiltIn   # I bring in Robot's BuiltIn so I can call other Robot keywords from Python
 
 @library                               # I tell Robot "this whole class is a library you can use"
-class PerfTimer:                       # I name my library class PerfTimer
+class Performance_timer:                       # I name my library class PerfTimer
 
     @keyword("Run And Measure")        # I tell Robot "I am creating a keyword called Run And Measure"
     def run_and_measure(self, threshold_ms: int, keyword_name: str, *args):

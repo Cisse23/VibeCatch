@@ -1,14 +1,15 @@
 *** Settings ***
-Library    Browser
-Resource    ../../Resource/keywords.resource
-Suite Setup    New Context
+Documentation    Tries to create a QWL poll without a name
+Library          Browser
+Resource         ../../Resource/keywords.resource
+Suite Setup      New Context
 Suite Teardown    Close Browser
 
+Test Tags       qwl_poll    negative 
 
 *** Test Cases ***
 Create QWL Poll With No Name
     [Documentation]    Tries to create a QWL poll without a name
-    [Tags]    invalid    qwl    poll    negative
     Open VibeCatch
     Login    ${USERNAME}    ${PASSWORD}
     Sleep    15

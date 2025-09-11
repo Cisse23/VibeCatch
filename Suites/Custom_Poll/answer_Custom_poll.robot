@@ -6,7 +6,7 @@ Test Setup          Open And Login VibeCatch
 Test Teardown       Close Browser
 Test Template       Answer Custom Poll
 
-Test Tags           poll    smoke
+Test Tags           custom_poll    e2e    answer
 
 
 *** Test Cases ***

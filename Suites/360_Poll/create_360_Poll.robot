@@ -7,7 +7,7 @@ Suite Setup         Open And Login VibeCatch
 Suite Teardown      Close Browser
 Test Template       Create And Verify 360 Poll
 
-Test Tags           poll    smoke
+Test Tags           360_poll    create    e2e
 
 
 *** Test Cases ***

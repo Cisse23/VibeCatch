@@ -1,14 +1,12 @@
 *** Settings ***
-Documentation       Answers QWL Poll
+Documentation       Answers QWL Poll from pool or chosen answers.
 Resource            ../../Resource/keywords.resource
 
 Suite Setup         Open And Login VibeCatch
 Suite Teardown      Close Browser
 Test Template       Answer QWL Poll
-Test Setup          Start Video Recording    name=QWLanswer
-Test Teardown       Stop Video Recording
 
-Test Tags           poll    smoke
+Test Tags           qwl_poll    e2e    answer
 
 
 *** Test Cases ***

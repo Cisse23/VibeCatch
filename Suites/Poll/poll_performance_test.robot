@@ -1,13 +1,13 @@
 *** Settings ***
-Library     Browser
-Library     ../Libs/Performance_timer.py
-Library     ../Libs/PollGenerator.py
-Variables   ../Resource/locators.py
-Resource    ../Resource/common_var.resource
-Resource    ../Resource/keywords.resource
+Documentation    Tests QWL poll creation under defined performance limits
+Library     ../../Libs/Performance_timer.py
+Library     ../../Libs/PollGenerator.py
+Resource    ../../Resource/keywords.resource
 
 Suite Setup       Open VibeCatch  
 Suite Teardown    Close Browser
+
+Test Tags        create    performance    qwl_poll
 
 
 *** Test Cases ***
