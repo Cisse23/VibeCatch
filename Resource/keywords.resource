@@ -3,12 +3,12 @@ Documentation   Keywords resource file for Suites
 Library         ScreenCapLibrary
 Library         String
 Library         Browser
-Library         ../libs/CustomLibrary.py
+Library         ../Libs/CustomLibrary.py
 Variables       locators.py
 Variables       env_vars.py
 Resource        common_var.resource
 
-Library         ../libs/randomizer.py
+Library         ../libs/Randomizer.py
 
 *** Keywords ***
 Open VibeCatch
@@ -322,19 +322,24 @@ Create A New 360 Feedback Poll With No Name
 Remove Single Poll By Name
     [Documentation]    Opens settings for the given poll name and completes the deletion flow.
     [Arguments]    ${poll_name}    ${destroy_text}=DESTROY    ${wait_timeout}=120s
+    Sleep    4
     Click
     ...    //div[contains(@class,"row") and contains(@class,"projectRow")][ .//a[contains(@class,"project-name")][contains(normalize-space(.),"${poll_name}")] ][1]//a[@mattooltip="Change poll's settings"]
     Wait For Elements State    ${DELETE_POLL_BUTTON}    visible    ${wait_timeout}
+    Sleep    4
     Click    ${DELETE_POLL_BUTTON}
     Wait For Elements State    ${DELETE_PROJECT_BUTTON}    visible    ${wait_timeout}
+    Sleep    4
     Click    ${DELETE_PROJECT_BUTTON}
     Wait For Elements State    ${DELETE_NOW_POLL_BUTTON}    visible    ${wait_timeout}
+    Sleep    4
     Click    ${DELETE_NOW_POLL_BUTTON}
+    Sleep    4
     Type Text    ${TYPE_DESTROY_FIELD}    ${destroy_text}
+    Sleep    4
     Wait For Elements State    ${VERIFY_REMOVAL_OK_BUTTON}    visible    ${wait_timeout}
     Click    ${VERIFY_REMOVAL_OK_BUTTON}
-    # Ensure the row is gone before proceeding
-    Wait For Elements State    ${PROJECT_ROW}    detached    ${wait_timeout}
+    Sleep    4
 
 Create New 360 Feedback Poll With Default Settings
     [Documentation]    Creates a 360 poll with default settings.

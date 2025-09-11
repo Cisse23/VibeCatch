@@ -17,7 +17,7 @@ User Can Open Poll Settings
     ...    Assumes atleat 1 poll exists in the system.
     [Tags]    smoke
     @{edit_buttons}    Get Elements    ${POLL_SETTINGS_BUTTON}
-    Click    ${edit_buttons[0]}
+    Click    ${edit_buttons}[0]
     Wait For Elements State    selector=${ADD_QUESTIONS_BUTTON}    state=visible    timeout=60
     Click    ${LOGO_NAVBAR}
     Wait For Elements State    ${POLLS_TABLE_ROW}    visible    timeout=120

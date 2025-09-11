@@ -5,8 +5,6 @@ Resource            ../../Resource/keywords.resource
 Suite Setup         Open And Login VibeCatch
 Suite Teardown      Close Browser
 Test Template       Create And Verify QWL Poll
-Test Setup          Start Video Recording    name=QWLcreate
-Test Teardown       Stop Video Recording
 
 Test Tags           poll    smoke
 
