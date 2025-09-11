@@ -6,7 +6,7 @@ Suite Setup         Open And Login VibeCatch
 Suite Teardown      Close Browser
 Test Template       Create And Verify Custom Poll
 
-Test Tags           poll    smoke
+Test Tags           custom_poll    create    e2e
 
 
 *** Test Cases ***

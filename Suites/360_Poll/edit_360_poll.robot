@@ -7,7 +7,7 @@ Resource            ../../Resource/keywords.resource
 
 Test Setup          Open And Login VibeCatch
 
-Test Tags           feedback_poll
+Test Tags           360_poll    
 
 
 *** Test Cases ***
@@ -25,6 +25,7 @@ User Can Open Poll Settings
 User Can Delete Poll With Name
     [Documentation]    Creates a new poll, then clicks the logo in the navbar
     ...    to move to the Dashboard and Deletes the the first poll with the same same.
+    [Tags]    delete
     VAR    ${new_poll_name}    Delete This Poll
     Create New 360 Feedback Poll With Default Settings    ${new_poll_name}
     Navigate To Dashboard
@@ -37,6 +38,7 @@ User Can Delete Poll With Name
 Delete Questions From Poll
     [Documentation]    Creates a new poll with default questions, then opens the poll
     ...    and deletes questions until there a 5 questions left.
+    [Tags]    delete
     VAR    ${new_poll_name}    Shorter Feedback Poll
     Create New 360 Feedback Poll With Default Settings    ${new_poll_name}
     Delete Questions Until    15

@@ -4,7 +4,7 @@ Library             SeleniumLibrary
 Library             AxeLibrary
 Resource            ../../Resource/common_var.resource
 
-Test Tags           accessability
+Test Tags           accessibility
 
 
 *** Test Cases ***
