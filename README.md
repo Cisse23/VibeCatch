@@ -33,15 +33,15 @@ pip install -r requirements.txt
 rfbrowser init
 ```
 
-# Secrets for login and api key are hold in .env file and add there:
-
+# Secrets for login and api key are stored in .env file
+Create a file named .env in your local project-root folder and replace <YOUR_USERNAME> and <YOUR_PASSWORD> with your personal login credentials.
 ```
 USER=<YOUR_USERNAME>
 PASSWORD=<YOUR_PASSWORD>
 POLL_API=api/v1/feedbacks?apiKey=<YOUR_API_KEY>
 ```
 
-# Running tests
+# Running tests locally
 
 Run all tests using command
 
@@ -55,33 +55,45 @@ Run all tests with tag 'smoke' using command
 ```bash
 robot -d results/ --include smoke suites/
 ```
-## Running tests with Docker
+
+### Tags 
+Currently used tags in the repository:
+- 360_poll
+- accessibility
+- answer
+- api
+- create
+- custom_poll
+- delete
+- e2e
+- edit
+- email
+- login
+- negative
+- not_independent
+- performance
+- qwl_poll
+- smoke
+
+# Running tests with Docker
 
 NOTE: Tests are not running properly inside docker image due to slow webpage. Adding more sleeps inbetween tests/keywords might solve this problem. 
 
-# Prerequisites
+## Prerequisites
 
 - Docker Desktop
 
-# Build the Docker image:
+## Build the Docker image:
 
 ```
 docker build -t vibecatch_tests .
 ```
 
-### Run the image with headful variable:
+## Run the image with headful variable:
 
 ```
 docker run --rm -e ROBOT_OPTIONS="-v HEADLESS:true" vibecatch_tests
 ```
-
-## Tags 
-Currently used tags in the repository:
--
-
-# Adding username and password
-To run tests that require authentication, you need to create a local `resources/secrets.resource` file (this file is gitignored).
-Create the file in your own project and replace "not_a_real_user" and "not_a_real_password" with your own credentials. See example below.
 
 # Formatting with robocop
 This project uses Robocop for linting and formatting Robot Framework code.
